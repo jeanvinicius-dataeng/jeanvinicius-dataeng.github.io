@@ -1,0 +1,493 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Jean Vinicius Dados e IA</title>
+<meta name="description" content="Portfólio de Jean Vinicius. Projetos de dados, automação e agentes de IA nascidos da rota de vendas.">
+<meta property="og:title" content="Jean Vinicius · Dados e IA">
+<meta property="og:description" content="Da rua pro dado. Projetos de dados, automação e agentes de IA.">
+<meta property="og:type" content="website">
+<style>body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;800;900&family=Barlow:wght@400;500;600&family=DM+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: sinalizacao de estrada. Faixas de cor de ponta a ponta (amarelo placa, asfalto, branco de faixa, verde de rodovia), letra condensada gigante e cada projeto como uma parada da rota */
+:root{
+  color-scheme:light;
+  --amarelo:#ffd100;
+  --asfalto:#17171a;
+  --asfalto-2:#2b2b30;
+  --branco:#ffffff;
+  --verde:#0a6a3c;
+  --cinza:#b9b9c2;
+  --display:"Barlow Condensed","Arial Narrow","Roboto Condensed",Impact,sans-serif;
+  --body:"Barlow","Segoe UI",system-ui,sans-serif;
+  --mono:"DM Mono",ui-monospace,Consolas,monospace;
+  --faixa:repeating-linear-gradient(90deg,var(--amarelo) 0 44px,transparent 44px 76px);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;overflow-x:clip}
+.ferr,.traj{overflow-x:clip}
+body{background:var(--amarelo);color:var(--asfalto);font-family:var(--body);font-size:17px;line-height:1.55;overflow-x:clip}
+.in{max-width:1240px;margin:0 auto;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+h1,h2,h3,p,ul{margin:0;padding:0}
+ul{list-style:none}
+a{color:inherit}
+:focus-visible{outline:4px solid var(--verde);outline-offset:3px}
+.d{font-family:var(--display);font-weight:900;text-transform:uppercase;line-height:.84;letter-spacing:-.01em;text-wrap:balance}
+.m{font-family:var(--mono);font-size:13px;letter-spacing:.08em;text-transform:uppercase}
+
+/* topo */
+.top{display:flex;justify-content:space-between;align-items:center;gap:12px 24px;flex-wrap:wrap;padding-block:20px}
+.top a{text-decoration:none}
+.top .m{font-weight:500}
+.nav{display:flex;gap:6px 22px;flex-wrap:wrap}
+.nav a{border-bottom:2px solid transparent}
+.nav a:hover{border-color:var(--asfalto)}
+
+/* hero */
+.hero{padding-block:8px 44px}
+.hero h1{font-size:min(18vw,270px)}
+.hero h1 span{display:block;overflow:hidden;padding-top:.06em}
+.hero h1 i{display:block;font-style:normal;animation:sobe .8s cubic-bezier(.2,.8,.2,1) both}
+.hero h1 span:nth-child(2) i{animation-delay:.12s}
+@keyframes sobe{from{transform:translateY(105%)}to{transform:none}}
+.hero-b{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:32px;align-items:end;margin-top:28px}
+.hero-t{display:flex;flex-direction:column;gap:22px;min-width:0}
+.lead{font-size:clamp(18px,2vw,23px);font-weight:500;max-width:56ch;line-height:1.4}
+.btns{display:flex;gap:12px;flex-wrap:wrap}
+.btn{font-family:var(--display);font-weight:800;font-size:22px;text-transform:uppercase;letter-spacing:.02em;text-decoration:none;
+  padding:10px 20px 11px;border:4px solid var(--asfalto);background:var(--asfalto);color:var(--amarelo);transition:transform .15s,background .15s,color .15s}
+.btn.o{background:transparent;color:var(--asfalto)}
+.btn:hover{transform:translate(-3px,-3px);box-shadow:6px 6px 0 var(--asfalto)}
+.btn.o:hover{background:var(--asfalto);color:var(--amarelo);box-shadow:none}
+
+/* placa losango */
+.placa{width:clamp(150px,19vw,240px);aspect-ratio:1;max-width:100%;margin:36px 44px 36px 36px;background:var(--asfalto);transform:rotate(45deg);
+  border-radius:14px;display:grid;place-items:center;box-shadow:inset 0 0 0 7px var(--asfalto),inset 0 0 0 12px var(--amarelo);transition:transform .5s cubic-bezier(.3,1.6,.5,1)}
+.placa:hover{transform:rotate(405deg)}
+.placa div{transform:rotate(-45deg);text-align:center;color:var(--amarelo);font-family:var(--display);font-weight:900;text-transform:uppercase;line-height:.9;font-size:clamp(26px,3.4vw,44px)}
+.placa small{display:block;font-family:var(--mono);font-weight:400;font-size:11px;letter-spacing:.1em;margin-top:8px}
+
+/* letreiro */
+.letreiro{background:var(--asfalto);color:var(--amarelo);overflow:hidden;padding-block:14px;white-space:nowrap}
+.letreiro div{display:inline-flex;animation:corre 38s linear infinite}
+.letreiro span{font-family:var(--display);font-weight:800;font-size:clamp(24px,3vw,38px);text-transform:uppercase;padding-right:.5em}
+.letreiro b{color:var(--branco);font-weight:800;padding-right:.5em}
+@keyframes corre{to{transform:translateX(-50%)}}
+
+/* numeros */
+.nums{background:var(--branco)}
+.nums ul{display:grid;grid-template-columns:repeat(4,minmax(0,1fr))}
+.nums li{padding:34px 20px 30px 0;min-width:0}
+.nums li + li{padding-left:20px;border-left:4px solid var(--asfalto)}
+.nums b{display:block;font-family:var(--display);font-weight:900;font-size:clamp(40px,5.6vw,92px);line-height:.85;font-variant-numeric:tabular-nums;white-space:nowrap}
+.nums b s{text-decoration:none;font-size:.5em;vertical-align:.5em;margin-right:.18em;position:relative}
+.nums b s::after{content:"";position:absolute;left:-4%;right:-4%;top:52%;height:.12em;background:var(--asfalto);transform:rotate(-14deg)}
+.nums span{display:block;margin-top:10px;font-weight:500;font-size:16px;max-width:22ch}
+
+/* projetos */
+.proj-h{background:var(--asfalto);color:var(--branco);padding-block:72px 40px}
+.proj-h h2{font-size:clamp(64px,13vw,200px);color:var(--amarelo)}
+.proj-h p{margin-top:18px;max-width:52ch;font-size:19px;color:var(--cinza)}
+.proj{--pb:var(--asfalto);--pf:var(--branco);--pa:var(--amarelo);--ps:var(--cinza);--pl:var(--asfalto-2);
+  background:var(--pb);color:var(--pf);transition:background .25s,color .25s;position:relative}
+.proj::before{content:"";display:block;height:7px;background:var(--faixa);opacity:.9}
+@media (hover:hover){
+  .proj:hover{--pb:var(--amarelo);--pf:var(--asfalto);--pa:var(--asfalto);--ps:var(--asfalto);--pl:rgba(23,23,26,.14)}
+  .proj:hover::before{background:repeating-linear-gradient(90deg,var(--asfalto) 0 44px,transparent 44px 76px)}
+}
+.proj .in{padding-block:44px 52px;display:flex;flex-direction:column;gap:22px}
+.proj{perspective:1300px;overflow:hidden}
+.proj.t3d .in{transform-origin:50% 100%;will-change:transform;backface-visibility:hidden}
+@media (hover:hover) and (min-width:821px){
+  .proj.t3d .in{transform-style:preserve-3d}
+  .proj.t3d h3{transform:translateZ(46px)}
+  .proj.t3d .selo{transform:translateZ(80px) rotate(-2deg)}
+  .proj.t3d .fluxo,.proj.t3d .ir{transform:translateZ(28px)}
+}
+.proj-top{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.km{font-family:var(--display);font-weight:800;font-size:19px;letter-spacing:.04em;text-transform:uppercase;background:var(--pa);color:var(--pb);padding:3px 10px 4px;transition:background .25s,color .25s}
+.proj-top .m{color:var(--ps)}
+.proj h3{font-size:clamp(52px,10.5vw,150px);color:var(--pa);transition:color .25s;overflow-wrap:anywhere}
+.selo{align-self:flex-start;font-family:var(--display);font-weight:800;font-size:21px;text-transform:uppercase;letter-spacing:.03em;border:3px solid var(--pa);color:var(--pa);padding:4px 12px 5px;transform:rotate(-2deg)}
+.proj-b{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:28px 56px}
+.proj-b > *{min-width:0}
+.proj-b p{font-size:20px;line-height:1.45;max-width:46ch}
+.fatos{display:flex;flex-direction:column}
+.fatos li{padding:11px 0 11px 30px;border-top:2px solid var(--pl);position:relative;font-weight:500}
+.fatos li:last-child{border-bottom:2px solid var(--pl)}
+.fatos li::before{content:"→";position:absolute;left:0;color:var(--pa);font-weight:600}
+.tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px}
+.tags li{font-family:var(--mono);font-size:12.5px;letter-spacing:.04em;text-transform:uppercase;border:1.5px solid var(--ps);padding:4px 9px}
+.ir{font-family:var(--display);font-weight:800;font-size:22px;text-transform:uppercase;color:var(--pa);text-underline-offset:5px;text-decoration-thickness:3px;align-self:flex-start}
+
+/* fluxo CapiBees */
+.fluxo{display:flex;align-items:stretch;gap:10px;flex-wrap:wrap;margin-top:6px}
+.fluxo > *{font-family:var(--mono);font-size:13px;text-transform:uppercase;letter-spacing:.04em;display:flex;align-items:center}
+.no{border:2px solid var(--pa);padding:10px 14px;color:var(--pf)}
+.no.c{background:var(--pa);color:var(--pb);font-weight:500}
+.seta{color:var(--pa);font-size:20px}
+.ramos{display:flex;flex-wrap:wrap;gap:8px}
+
+/* ferramentas, placa de rodovia */
+.ferr{background:var(--branco);padding-block:72px;--pa:var(--asfalto);--pb:var(--amarelo)}
+.pista{perspective:1200px;position:relative;display:flex;flex-direction:column;gap:44px}
+.grupo{transform-origin:0 50%;border-top:5px solid var(--asfalto);padding-top:16px;min-width:0}
+.grupo:nth-child(even){transform-origin:100% 50%}
+.pal{display:flex;flex-wrap:wrap;gap:.04em .3em;margin-top:14px;font-family:var(--display);font-weight:900;text-transform:uppercase;font-size:clamp(38px,7.2vw,108px);line-height:.92}
+.pal b{font-weight:900;min-width:0;overflow-wrap:anywhere;padding:0 .06em;transition:background .15s,color .15s}
+.pal b:nth-child(even){color:transparent;-webkit-text-stroke:2px var(--asfalto)}
+.pal b:hover{background:var(--amarelo);color:var(--asfalto);-webkit-text-stroke:0}
+.traj ul{perspective:1100px;position:relative}
+.traj li{transform-origin:50% 0}
+.traj{--pf:var(--asfalto);--pa:var(--asfalto);--ps:var(--asfalto)}
+.proj{--lg:clamp(104px,20vw,250px)}
+.proj .in{position:relative}
+.mascote{position:absolute;top:36px;right:max(16px,env(safe-area-inset-right,0px));width:var(--lg);height:var(--lg);border-radius:50%;border:4px solid var(--pa);box-shadow:8px 8px 0 var(--pa);animation:boia 4s ease-in-out infinite;transition:border-color .25s,box-shadow .25s}
+.mascote ~ .proj-top,.mascote ~ h3{padding-right:calc(var(--lg) + 14px)}
+@keyframes boia{50%{translate:0 -10px}}
+.midia{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:44px;align-items:center;margin-top:14px}
+.midia.um{grid-template-columns:minmax(0,1fr);max-width:960px}
+.tela{display:block;width:100%;min-width:0;padding:0;margin:0;border:0;background:none;font:inherit;color:inherit;text-align:left;cursor:zoom-in}
+div.tela{cursor:default}
+.tela img,.tela video{display:block;width:100%;height:auto;background:#000;border:4px solid var(--pf);box-shadow:10px 10px 0 var(--pa);transition:border-color .25s,box-shadow .25s}
+.tela .m{display:block;margin-top:22px;color:var(--ps)}
+.traj .tela{max-width:440px;margin-top:18px}
+@media (hover:hover) and (min-width:821px){
+  .proj.t3d .mascote{transform:translateZ(120px)}
+  .proj.t3d .tela{transition:transform .45s cubic-bezier(.2,.8,.2,1);transform:translateZ(30px) rotateY(-9deg)}
+  .proj.t3d .tela + .tela{transform:translateZ(30px) rotateY(9deg)}
+  .proj.t3d .midia.um .tela{transform:translateZ(30px) rotateX(5deg)}
+  .proj.t3d .tela:hover{transform:translateZ(110px)}
+}
+@media (max-width:820px){.midia{grid-template-columns:minmax(0,1fr);gap:34px}}
+@media (prefers-reduced-motion:reduce){.mascote{animation:none}}
+.luz{position:fixed;inset:0;z-index:50;background:rgba(10,10,12,.95);display:grid;place-items:center;cursor:zoom-out;
+  padding:calc(64px + env(safe-area-inset-top,0px)) max(16px,env(safe-area-inset-right,0px)) calc(24px + env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px))}
+.midia.app{grid-template-columns:minmax(0,3.3fr) repeat(3,minmax(0,1fr));gap:36px;align-items:start}
+@media (max-width:820px){.midia.app{grid-template-columns:repeat(3,minmax(0,1fr));gap:30px 22px}.midia.app .tela:first-child{grid-column:1/-1}}
+.luz[hidden]{display:none}
+.luz img{max-width:100%;max-height:100%;min-height:0;object-fit:contain;border:4px solid var(--amarelo)}
+.luz button{position:absolute;top:calc(14px + env(safe-area-inset-top,0px));right:max(16px,env(safe-area-inset-right,0px));font-family:var(--display);font-weight:800;font-size:20px;text-transform:uppercase;background:var(--amarelo);color:var(--asfalto);border:0;padding:6px 14px 7px;cursor:pointer}
+.rod{color:var(--asfalto)}
+.rod-in{display:flex;flex-direction:column;gap:32px}
+.rod h2{font-size:clamp(56px,13vw,200px);overflow-wrap:anywhere}
+.saidas{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:32px}
+.saidas li{display:flex;flex-direction:column;gap:10px;min-width:0;border-top:5px solid var(--branco);padding-top:16px}
+.saidas h3{font-family:var(--display);font-weight:800;font-size:34px;text-transform:uppercase;line-height:1;display:flex;gap:12px;align-items:center}
+.saidas h3::before{content:"↑";display:grid;place-items:center;width:40px;height:40px;flex:none;background:var(--branco);color:var(--verde);border-radius:6px;font-family:var(--body);font-size:26px;font-weight:600}
+.saidas p{font-size:19px;font-weight:500;line-height:1.4}
+
+/* trajetoria */
+.traj{padding-block:72px}
+.traj h2{font-size:clamp(64px,13vw,200px);margin-bottom:28px}
+.traj li{display:grid;grid-template-columns:minmax(0,360px) minmax(0,1fr);gap:8px 40px;align-items:baseline;padding-block:20px;border-top:5px solid var(--asfalto)}
+.traj li:last-child{border-bottom:5px solid var(--asfalto)}
+.traj time{font-family:var(--display);font-weight:900;font-size:clamp(44px,6vw,80px);line-height:.85;text-transform:uppercase;white-space:nowrap}
+.traj b{display:block;font-family:var(--display);font-weight:800;font-size:clamp(28px,3.4vw,40px);text-transform:uppercase;line-height:1}
+.traj span{display:block;margin-top:6px;font-size:19px;font-weight:500;max-width:56ch}
+
+/* contato */
+.fim{background:var(--asfalto);color:var(--branco);padding-block:80px 96px}
+.fim::before{content:"";display:block;height:7px;background:var(--faixa);margin-bottom:64px}
+.fim h2{font-size:min(15.5vw,236px);color:var(--amarelo)}
+.fim p{margin-block:26px 30px;font-size:21px;max-width:54ch;color:var(--branco)}
+.fim .btn{border-color:var(--amarelo);background:var(--amarelo);color:var(--asfalto)}
+.fim .btn.o{background:transparent;color:var(--amarelo)}
+.fim .btn:hover{box-shadow:6px 6px 0 var(--branco)}
+.fim .btn.o:hover{background:var(--amarelo);color:var(--asfalto);box-shadow:none}
+.rodape{margin-top:64px;color:var(--cinza)}
+
+/* hodometro da rolagem */
+.odo{position:fixed;left:0;right:0;bottom:0;height:calc(8px + env(safe-area-inset-bottom,0px));background:var(--asfalto);z-index:20}
+.odo i{display:block;height:8px;width:100%;transform-origin:left;transform:scaleX(0);background:repeating-linear-gradient(90deg,var(--amarelo) 0 26px,var(--asfalto) 26px 40px)}
+
+@media (max-width:820px){
+  .hero-b{grid-template-columns:minmax(0,1fr)}
+  .placa{width:132px;margin:26px 0 26px 28px}
+  .nums ul{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .nums li:nth-child(3){padding-left:0;border-left:0}
+  .nums li:nth-child(n+3){border-top:4px solid var(--asfalto)}
+  .proj-b,.saidas,.traj li{grid-template-columns:minmax(0,1fr)}
+  .proj-b p,.saidas p,.traj span,.fim p{font-size:18px}
+}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  .hero h1 i,.letreiro div{animation:none}
+  .placa,.btn,.proj{transition:none}
+}
+</style>
+
+</head>
+<body>
+<header class="in top" id="inicio">
+  <a class="m" href="#inicio">Jean Vinicius · Curitiba PR</a>
+  <nav class="nav m" aria-label="Seções">
+    <a href="#projetos">Projetos</a>
+    <a href="#ferramentas">Ferramentas</a>
+    <a href="#trajetoria">Trajetória</a>
+    <a href="#contato">Contato</a>
+  </nav>
+</header>
+
+<div class="in hero">
+  <h1 class="d"><span><i>Da rua</i></span><span><i>pro dado.</i></span></h1>
+  <div class="hero-b">
+    <div class="hero-t">
+      <p class="lead">Sou Representante de Negócios na Ambev e visito cerca de 27 pontos de venda por dia. Os problemas que encontro na rota eu resolvo com Python, automação e agentes de IA que o time usa no celular.</p>
+      <div class="btns">
+        <a class="btn" href="#projetos">Ver projetos ↓</a>
+        <a class="btn o" href="https://www.linkedin.com/in/jeanvinicius" target="_blank" rel="noopener">LinkedIn</a>
+        <a class="btn o" href="https://github.com/jeanvinicius-dataeng" target="_blank" rel="noopener">GitHub</a>
+      </div>
+    </div>
+    <div class="placa" aria-hidden="true"><div>Dados<br>e IA<small>à frente</small></div></div>
+  </div>
+</div>
+
+<div class="letreiro">
+  <div>
+    <span>Python <b>/</b> SQL <b>/</b> Databricks <b>/</b> Copilot Studio <b>/</b> Power Automate <b>/</b> Streamlit <b>/</b> Node.js <b>/</b> Gemini API <b>/</b> pandas <b>/</b></span>
+    <span aria-hidden="true">Python <b>/</b> SQL <b>/</b> Databricks <b>/</b> Copilot Studio <b>/</b> Power Automate <b>/</b> Streamlit <b>/</b> Node.js <b>/</b> Gemini API <b>/</b> pandas <b>/</b></span>
+  </div>
+</div>
+
+<div class="nums">
+  <ul class="in">
+    <li><b>6</b><span>agentes de IA construídos</span></li>
+    <li><b>77 mil</b><span>registros consultados em segundos</span></li>
+    <li><b><s>40s</s>12s</b><span>tempo de resposta dos agentes, antes 40 segundos</span></li>
+    <li><b>9 mil+</b><span>interações no portal em 25 dias</span></li>
+  </ul>
+</div>
+
+<section id="projetos">
+  <div class="proj-h">
+    <div class="in">
+      <h2 class="d">Projetos</h2>
+      <p>Cinco paradas. Cada uma nasceu de uma dor real do dia a dia comercial ou de um desafio de estudo levado até o fim.</p>
+    </div>
+  </div>
+
+  <article class="proj">
+    <div class="in">
+      <img class="mascote" src="a/capibees.jpg" width="560" height="560" alt="Mascote do CapiBees, uma capivara robô com asas de abelha">
+      <div class="proj-top"><span class="km">Parada 01</span><span class="m">Agentes de IA · Projeto principal</span></div>
+      <h3 class="d">CapiBees</h3>
+      <span class="selo">3º lugar · IA na Prática GEO SUL</span>
+      <div class="proj-b">
+        <div>
+          <p>Agente orquestrador que recebe a pergunta do vendedor e manda para o agente especialista certo. Publicado no Microsoft Teams para consulta pelo celular durante a rota.</p>
+          <ul class="tags"><li>Copilot Studio</li><li>Power Automate</li><li>SharePoint</li><li>Teams</li></ul>
+        </div>
+        <ul class="fatos">
+          <li>Ecossistema com 6 agentes cobrindo 5 áreas do atendimento</li>
+          <li>Busca por código, CPF ou CNPJ em base com mais de 77 mil registros</li>
+          <li>Fluxos em paralelo e modo expresso derrubaram a resposta de 40 para 12 segundos</li>
+          <li>Expansão para toda a regional aprovada pela diretoria</li>
+        </ul>
+      </div>
+      <div class="fluxo" aria-label="Como o CapiBees funciona">
+        <span class="no">Pergunta no Teams</span><span class="seta">→</span>
+        <span class="no c">CapiBees</span><span class="seta">→</span>
+        <span class="ramos"><span class="no">Atendimento Produtivo</span><span class="no">Estoque</span><span class="no">Clientes</span><span class="no">Score 5</span><span class="no">Comodato</span></span>
+      </div>
+    </div>
+  </article>
+
+  <article class="proj">
+    <div class="in">
+      <div class="proj-top"><span class="km">Parada 02</span><span class="m">Databricks · SQL</span></div>
+      <h3 class="d">Painel de Pedidos Off-line</h3>
+      <div class="proj-b">
+        <div>
+          <p>Um pilar do SPO que a operação não batia há bastante tempo e que ninguém conseguia acompanhar de forma simples. Montei no Databricks um painel que mostra a meta do dia, do mês e do trimestre por sala e quanto cada uma ainda pode digitar sem estourar.</p>
+          <ul class="tags"><li>Databricks</li><li>SQL</li><li>Dashboards</li></ul>
+        </div>
+        <ul class="fatos">
+          <li>Consulta SQL em etapas que calcula dias úteis e a meta acumulada do trimestre</li>
+          <li>Semáforo por sala com a situação do dia, do mês e do trimestre</li>
+          <li>Dado direto da base da operação, sem planilha manual</li>
+        </ul>
+      </div>
+      <div class="midia">
+        <button type="button" class="tela"><img src="a/painel.jpg" width="1100" height="946" loading="lazy" alt="Painel de Pedidos Off-line com metas diária, mensal e trimestral por sala"><span class="m">Painel publicado · números ocultados</span></button>
+        <button type="button" class="tela"><img src="a/sql.jpg" width="1280" height="683" loading="lazy" alt="Consulta SQL do painel no Databricks"><span class="m">A consulta no Databricks</span></button>
+      </div>
+    </div>
+  </article>
+
+  <article class="proj">
+    <div class="in">
+      <div class="proj-top"><span class="km">Parada 03</span><span class="m">Engenharia de dados</span></div>
+      <h3 class="d">iFood Marketing Pipeline</h3>
+      <div class="proj-b">
+        <div>
+          <p>Pipeline de dados construído do zero sobre o dataset público iFood Marketing Campaigns, da ingestão até o dashboard publicado. Projeto final do programa Acelera Dados.</p>
+          <ul class="tags"><li>Python</li><li>SQL</li><li>Streamlit</li><li>GitHub</li></ul>
+        </div>
+        <ul class="fatos">
+          <li>2.002 clientes e 5 campanhas analisadas</li>
+          <li>Dashboard no ar no Streamlit Cloud</li>
+          <li>Código aberto no GitHub</li>
+        </ul>
+      </div>
+      <div class="midia um">
+        <div class="tela"><video id="video-ifood" src="a/ifood.mp4" poster="a/ifood.jpg" width="1280" height="608" controls playsinline preload="none"></video><span class="m">Demonstração do dashboard e do código · 42 segundos</span></div>
+      </div>
+      <a class="ir" href="https://github.com/jeanvinicius-dataeng" target="_blank" rel="noopener">Ver no GitHub →</a>
+    </div>
+  </article>
+
+  <article class="proj">
+    <div class="in">
+      <div class="proj-top"><span class="km">Parada 04</span><span class="m">Portal web · Piloto</span></div>
+      <h3 class="d">Portal do Representante</h3>
+      <span class="selo">3º lugar · IA na Prática GEO SUL</span>
+      <div class="proj-b">
+        <div>
+          <p>Portal que reuniu em um só lugar as ferramentas de vendas do time, como painel de metas, consulta de PDV, trocas e reposições e calculadora.</p>
+          <ul class="tags"><li>Python</li><li>pandas</li><li>HTML/CSS/JS</li><li>GitHub API</li></ul>
+        </div>
+        <ul class="fatos">
+          <li>Piloto de 25 dias com 133 usuários ativos</li>
+          <li>3.579 visualizações e 9.617 eventos medidos no Google Analytics</li>
+          <li>Scripts Python geram as páginas a partir de Excel e publicam sozinhos</li>
+        </ul>
+      </div>
+      <div class="midia">
+        <button type="button" class="tela"><img src="a/portal.jpg" width="1280" height="718" loading="lazy" alt="Tela inicial do Portal do Representante com seis ferramentas"><span class="m">Tela inicial do portal</span></button>
+        <button type="button" class="tela"><img src="a/adocao.jpg" width="1100" height="686" loading="lazy" alt="Gráfico do Google Analytics com 3.579 visualizações, 133 usuários ativos e 9.617 eventos"><span class="m">Adoção nos 25 dias de piloto</span></button>
+      </div>
+    </div>
+  </article>
+
+  <article class="proj">
+    <div class="in">
+      <div class="proj-top"><span class="km">Parada 05</span><span class="m">Produto com IA</span></div>
+      <h3 class="d">PlanejaIA</h3>
+      <div class="proj-b">
+        <div>
+          <p>Assistente financeiro pessoal no WhatsApp. A pessoa escreve o gasto em linguagem natural, a IA interpreta e o painel web mostra projeções e parcelas.</p>
+          <ul class="tags"><li>Node.js</li><li>SQLite</li><li>Gemini API</li><li>Evolution API</li><li>Chart.js</li></ul>
+        </div>
+        <ul class="fatos">
+          <li>Backend, bot e painel construídos de ponta a ponta</li>
+          <li>Login por PIN com bloqueio contra tentativas repetidas</li>
+        </ul>
+      </div>
+      <div class="midia app">
+        <button type="button" class="tela"><img src="a/pl-site.jpg" width="1400" height="686" loading="lazy" alt="Página do PlanejaIA com a conversa no WhatsApp registrando um gasto"><span class="m">Página do produto</span></button>
+        <button type="button" class="tela"><img src="a/pl-inicio.jpg" width="426" height="891" loading="lazy" alt="Painel do PlanejaIA com saldo do período e últimas transações"><span class="m">Painel</span></button>
+        <button type="button" class="tela"><img src="a/pl-fixos.jpg" width="426" height="888" loading="lazy" alt="Tela de gastos fixos com parcelas do cartão e contas recorrentes"><span class="m">Gastos fixos</span></button>
+        <button type="button" class="tela"><img src="a/pl-login.jpg" width="426" height="607" loading="lazy" alt="Tela de acesso do PlanejaIA"><span class="m">Acesso</span></button>
+      </div>
+    </div>
+  </article>
+</section>
+
+<section class="ferr" id="ferramentas">
+  <div class="in">
+    <div class="rod">
+      <div class="rod-in">
+        <h2 class="d">Ferramentas</h2>
+        <ul class="pista">
+          <li class="grupo"><span class="km">Dados</span><p class="pal"><b>Python</b><b>pandas</b><b>SQL</b><b>Databricks</b><b>Streamlit</b><b>Excel intermediário</b></p></li>
+          <li class="grupo"><span class="km">IA e automação</span><p class="pal"><b>Copilot Studio</b><b>Power Automate</b><b>Gemini API</b><b>Claude</b><b>Engenharia de prompt</b></p></li>
+          <li class="grupo"><span class="km">Web e entrega</span><p class="pal"><b>HTML</b><b>CSS</b><b>JavaScript</b><b>Node.js</b><b>SQLite</b><b>GitHub Pages</b><b>Render</b><b>Netlify</b></p></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="traj" id="trajetoria">
+  <div class="in">
+    <h2 class="d">Trajetória</h2>
+    <ul>
+      <li><time>Formação</time><div><b>Tecnólogo em Marketing</b><span>Graduação concluída na UNINTER. A base de negócio e de cliente que hoje uso para desenhar as soluções de dados.</span></div></li>
+      <li><time>Nov 2023</time><div><b>Entrada na Ambev</b><span>Representante de Negócios no CDD Curitiba, gerindo carteira de pontos de venda.</span></div></li>
+      <li><time>Ago 2024</time><div><b>Promoção a Step 2</b><span>Reconhecido como Referência Nacional e classificado 4 vezes na Liga Nacional Ambev.</span></div></li>
+      <li><time>2026</time><div><b>Pós em Engenharia de Dados e IA</b><span>Anhanguera, em paralelo ao programa Acelera Dados. Embaixador do Transforma AI na companhia.</span></div></li>
+      <li><time>Out 2026</time><div><b>Promoção a Step 3</b><span>CapiBees premiado no desafio regional de IA e aprovado para expansão.</span></div></li>
+      <li><time>Nov 2026</time><div><b>Certificado Engenheiro de Dados Júnior</b><span>Aceleração EmpregaDados, 46 horas, com análise, automação, colaboração, inteligência e engenharia de dados.</span><button type="button" class="tela"><img src="a/certificado.jpg" width="1200" height="800" loading="lazy" alt="Certificado de Engenheiro de Dados Júnior da Aceleração EmpregaDados em nome de Jean Vinicius Mendes da Costa"></button></div></li>
+    </ul>
+  </div>
+</section>
+
+<section class="fim" id="contato">
+  <div class="in">
+    <h2 class="d">Próxima parada, seu time.</h2>
+    <p>Procuro oportunidades em dados, BI e IA aplicada a negócio. Conheço a operação comercial por dentro e sei transformar isso em ferramenta que o time realmente usa.</p>
+    <div class="btns">
+      <a class="btn" href="https://www.linkedin.com/in/jeanvinicius" target="_blank" rel="noopener">Chamar no LinkedIn →</a>
+      <a class="btn o" href="https://github.com/jeanvinicius-dataeng" target="_blank" rel="noopener">Código no GitHub</a>
+    </div>
+    <p class="m rodape">Jean Vinicius Mendes da Costa · Carioca em Curitiba</p>
+  </div>
+</section>
+
+<div class="luz" id="luz" hidden><img alt=""><button type="button">Fechar ✕</button></div>
+<div class="odo" aria-hidden="true"><i id="odo"></i></div>
+
+<script>
+(function(){
+  var bar=document.getElementById('odo'),t=false;
+  function upd(){t=false;var h=document.documentElement,max=h.scrollHeight-h.clientHeight;
+    bar.style.transform='scaleX('+(max>0?Math.min(1,h.scrollTop/max):0)+')';}
+  addEventListener('scroll',function(){if(!t){t=true;requestAnimationFrame(upd);}},{passive:true});
+  addEventListener('resize',upd);upd();
+})();
+(function(){
+  if(matchMedia('(prefers-reduced-motion:reduce)').matches)return;
+  var ps=[].slice.call(document.querySelectorAll('.proj')),t=false;
+  ps.forEach(function(el){el.classList.add('t3d');el._mx=0;el._my=0;});
+  function draw(){t=false;var vh=innerHeight;
+    ps.forEach(function(el,i){
+      var r=el.getBoundingClientRect();
+      if(r.top>vh+200||r.bottom<-200)return;
+      var p=Math.max(0,Math.min(1,(vh*.9-r.top)/(vh*.68))),e=p*p*(3-2*p),k=1-e;
+      var rx=k*64+el._my,ry=k*(i%2?-16:16)+el._mx;
+      el.firstElementChild.style.transform='translateZ('+(-k*220)+'px) rotateX('+rx.toFixed(2)+'deg) rotateY('+ry.toFixed(2)+'deg)';
+    });}
+  function ask(){if(!t){t=true;requestAnimationFrame(draw);}}
+  addEventListener('scroll',ask,{passive:true});addEventListener('resize',ask);
+  if(matchMedia('(hover:hover)').matches){
+    ps.forEach(function(el){
+      el.addEventListener('pointermove',function(ev){var r=el.getBoundingClientRect();
+        el._mx=((ev.clientX-r.left)/r.width-.5)*7;el._my=-((ev.clientY-r.top)/r.height-.5)*5;ask();});
+      el.addEventListener('pointerleave',function(){el._mx=0;el._my=0;ask();});
+    });
+  }
+  draw();
+})();
+(function(){
+  if(matchMedia('(prefers-reduced-motion:reduce)').matches)return;
+  var its=[],t=false;
+  [].forEach.call(document.querySelectorAll('.traj li'),function(el){
+    its.push({el:el,span:.4,f:function(k){return 'rotateX('+(-82*k).toFixed(2)+'deg)';}});});
+  [].forEach.call(document.querySelectorAll('.grupo'),function(el,i){var s=i%2?-1:1;
+    its.push({el:el,span:.5,f:function(k){return 'translateZ('+(-160*k).toFixed(1)+'px) rotateY('+(s*64*k).toFixed(2)+'deg)';}});});
+  function draw(){t=false;var vh=innerHeight;
+    its.forEach(function(o){
+      var top=o.el.parentNode.getBoundingClientRect().top+o.el.offsetTop;
+      var p=Math.max(0,Math.min(1,(vh*.9-top)/(vh*o.span))),e=p*p*(3-2*p);
+      o.el.style.transform=o.f(1-e);o.el.style.opacity=(.15+.85*e).toFixed(3);
+    });}
+  function ask(){if(!t){t=true;requestAnimationFrame(draw);}}
+  addEventListener('scroll',ask,{passive:true});addEventListener('resize',ask);draw();
+})();
+(function(){
+  var luz=document.getElementById('luz'),im=luz.querySelector('img'),bt=luz.querySelector('button'),de=null;
+  function fecha(){luz.hidden=true;im.removeAttribute('src');if(de)de.focus();}
+  [].forEach.call(document.querySelectorAll('button.tela'),function(b){
+    b.addEventListener('click',function(){var i=b.querySelector('img');im.src=i.currentSrc||i.src;im.alt=i.alt;de=b;luz.hidden=false;bt.focus();});});
+  luz.addEventListener('click',fecha);
+  addEventListener('keydown',function(e){if(e.key==='Escape'&&!luz.hidden)fecha();});
+})();
+</script>
+
+</body>
+</html>

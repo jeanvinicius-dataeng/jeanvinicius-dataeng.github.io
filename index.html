@@ -244,12 +244,19 @@ div.tela{cursor:default}
   .midia.tri .tela:first-child,.midia.vd .tela + .tela{grid-column:1/-1;max-width:250px}
   .midia.vd{grid-template-columns:minmax(0,1fr)}
 }
+@media (max-width:820px){
+  .so-pc{display:none}
+  .top{flex-direction:column;align-items:flex-start;gap:10px;padding-block:18px 0}
+  .nav{flex-wrap:nowrap;gap:13px;font-size:11px;letter-spacing:.04em;white-space:nowrap}
+  .hero{padding-top:40px}
+}
+@media (max-width:345px){.nav a:last-child{display:none}}
 </style>
 
 </head>
 <body>
 <header class="in top" id="inicio">
-  <a class="m" href="#inicio">Jean Vinicius Mendes da Costa · Curitiba PR</a>
+  <a class="m" href="#inicio">Jean Vinicius<span class="so-pc"> Mendes da Costa</span> · Curitiba PR</a>
   <nav class="nav m" aria-label="Seções">
     <a href="#projetos">Projetos</a>
     <a href="#ferramentas">Ferramentas</a>

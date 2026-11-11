@@ -251,6 +251,13 @@ div.tela{cursor:default}
   .hero{padding-top:40px}
 }
 @media (max-width:345px){.nav a:last-child{display:none}}
+@keyframes gira{0%,72%{transform:rotate(45deg)}100%{transform:rotate(405deg)}}
+@keyframes gira1{from{transform:rotate(45deg)}to{transform:rotate(405deg)}}
+@media (hover:none){
+  .placa{animation:gira 5s cubic-bezier(.3,1.4,.5,1) 1.2s infinite}
+  .placa.toque{animation:gira1 .7s cubic-bezier(.3,1.4,.5,1)}
+}
+@media (prefers-reduced-motion:reduce){.placa,.placa.toque{animation:none}}
 </style>
 
 </head>
@@ -558,6 +565,11 @@ div.tela{cursor:default}
   var io=new IntersectionObserver(function(es){es.forEach(function(e){
     if(e.isIntersecting){var p=e.target.play();if(p&&p.catch)p.catch(function(){e.target.controls=true;});}else e.target.pause();});},{threshold:.35});
   vs.forEach(function(v){io.observe(v);});
+})();
+(function(){
+  var p=document.querySelector('.placa');if(!p||!matchMedia('(hover:none)').matches)return;
+  p.addEventListener('click',function(){p.classList.remove('toque');void p.offsetWidth;p.classList.add('toque');});
+  p.addEventListener('animationend',function(){p.classList.remove('toque');});
 })();
 </script>
 
